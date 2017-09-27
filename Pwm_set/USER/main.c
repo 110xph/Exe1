@@ -54,12 +54,15 @@ int main(void)
 								flag = 0;
 								USART_RX_STA=0;
 							}
-							
+							else
+							{
+								printf("\r\nInValid frequency!\r\n");
+							}
 				}
 				else if(flag == 2)
 				{// wait for Duty Ratio
 
-					printf("\r\n2\r\n");
+						printf("\r\n2\r\n");
 				
 						len=USART_RX_STA&0x3fff;
 						pwmVal = 0;
@@ -71,12 +74,19 @@ int main(void)
 						}
 
 						printf("\r\nYour setting:%d\r\n", pwmVal);
+
+						if(10< pwmVal && pwmVal < 90)
+						{
 						//edit TIM4
-						TIM4->CCR4 = (1-pwmVal*0.01)*TIM4->ARR;					
+							TIM4->CCR4 = (1-pwmVal*0.01)*TIM4->ARR;												
+						}
+						else
+						{
+							printf("\r\nInValid Duty Ratio!\r\n");
+						}
 						flag = 0;
 						USART_RX_STA=0;
-				}
-								
+				}								
 				else
 				{
 					flag = USART_RX_BUF[0] - '0';
